@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "rootDir": "./",
+    "outDir": "build",
+    "target": "esnext",
+    "module": "commonjs",
+    "jsx": "react",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "downlevelIteration": true,
+    "incremental": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "noImplicitAny": false
+  },
+  "include": [
+    "./server/**/*",
+    "./admin/**/*",
+    "./types/**/*",
+    "./strapi-server.*",
+    "./strapi-admin.*",
+    "./prepublish.*",
+    "./server/**/*.json",
+    "./admin/**/*.json",
+  ],
+  "exclude": [
+    "**/node_modules/**/*",
+    "**/build/**/*"
+  ]
+}

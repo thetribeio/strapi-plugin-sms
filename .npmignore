@@ -1,0 +1,8 @@
+public/
+.github/
+.nvmrc
+*.map
+*.spec.*
+prepublish.*
+**/__tests__/**
+**/__mocks__/**
