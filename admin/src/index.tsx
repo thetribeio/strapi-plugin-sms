@@ -1,70 +1,70 @@
-import { prefixPluginTranslations } from '@strapi/helper-plugin';
-import pluginPkg from '../../package.json';
-import pluginId from './pluginId';
-import Initializer from './components/Initializer';
-import getTrad from './utils/getTrad';
-import pluginPermissions from './permissions';
+import { prefixPluginTranslations } from '@strapi/helper-plugin'
+import pluginPkg from '../../package.json'
+import pluginId from './pluginId'
+import Initializer from './components/Initializer'
+import getTrad from './utils/getTrad'
+import pluginPermissions from './permissions'
 
-const name = pluginPkg.strapi.name;
+const name = pluginPkg.strapi.name
 
 export default {
   register(app) {
     app.createSettingSection(
       {
         id: pluginId,
-        intlLabel: { id: getTrad('SettingsNav.section-label'), defaultMessage: 'SMS Plugin' },
+        intlLabel: { id: getTrad('SettingsNav.section-label'), defaultMessage: 'SMS Plugin' }
       },
       [
         {
           intlLabel: {
             id: getTrad('Settings.email.plugin.title'),
-            defaultMessage: 'Settings',
+            defaultMessage: 'Settings'
           },
           id: 'settings',
           to: `/settings/${pluginId}`,
           async Component() {
             const component = await import(
               /* webpackChunkName: "sms-settings-page" */ './pages/Settings'
-            );
+            )
 
-            return component;
+            return component
           },
-          permissions: pluginPermissions.settings,
-        },
+          permissions: pluginPermissions.settings
+        }
       ]
-    );
+    )
     const plugin = {
       id: pluginId,
       initializer: Initializer,
       isReady: false,
-      name,
-    };
+      name
+    }
 
-    app.registerPlugin(plugin);
+    app.registerPlugin(plugin)
   },
 
   bootstrap() {},
   async registerTrads(app: any) {
-    const { locales } = app;
+    const { locales } = app
 
     const importedTrads = await Promise.all(
-      locales.map(locale => {
-        return import(`./translations/${locale}.json`)
+      locales.map(async locale => {
+        return await import(`./translations/${locale}.json`)
           .then(({ default: data }) => {
             return {
               data: prefixPluginTranslations(data, pluginId),
-              locale,
-            };
+              locale
+            }
           })
           .catch(() => {
             return {
               data: {},
-              locale,
-            };
-          });
+              locale
+            }
+          })
       })
-    );
+    )
 
-    return Promise.resolve(importedTrads);
-  },
-};
+    return await Promise.resolve(importedTrads)
+  }
+}

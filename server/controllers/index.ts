@@ -1,5 +1,5 @@
-import sms from './sms';
+import sms from './sms'
 
 export default {
-  sms,
-};
+  sms
+}

@@ -6,8 +6,8 @@ export default {
       path: '/',
       handler: 'sms.send',
       config: {
-        policies: ['admin::isAuthenticatedAdmin'],
-      },
+        policies: ['admin::isAuthenticatedAdmin']
+      }
     },
     {
       method: 'POST',
@@ -16,9 +16,9 @@ export default {
       config: {
         policies: [
           'admin::isAuthenticatedAdmin',
-          { name: 'admin::hasPermissions', config: { actions: ['plugin::sms.settings.read'] } },
-        ],
-      },
+          { name: 'admin::hasPermissions', config: { actions: ['plugin::sms.settings.read'] } }
+        ]
+      }
     },
     {
       method: 'GET',
@@ -27,9 +27,9 @@ export default {
       config: {
         policies: [
           'admin::isAuthenticatedAdmin',
-          { name: 'admin::hasPermissions', config: { actions: ['plugin::sms.settings.read'] } },
-        ],
-      },
-    },
-  ],
-};
+          { name: 'admin::hasPermissions', config: { actions: ['plugin::sms.settings.read'] } }
+        ]
+      }
+    }
+  ]
+}

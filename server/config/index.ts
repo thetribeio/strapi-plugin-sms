@@ -4,5 +4,5 @@ export default {
       defaultSender: 'Strapi'
     }
   },
-  validator() {},
-};
+  validator() {}
+}
