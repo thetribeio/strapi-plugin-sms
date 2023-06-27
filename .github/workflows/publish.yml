@@ -1,7 +1,12 @@
 name: "Publish"
+# on:
+#   release:
+#     types: [published]
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - ci/*
+      - fix/*
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -20,6 +25,8 @@ jobs:
           cache: yarn
           registry-url: "https://registry.yarnpkg.com"
       - run: yarn install --frozen-lockfile
+      - run: yarn build
       - run: yarn publish --access public
+        working-directory: ./build
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

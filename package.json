@@ -1,6 +1,6 @@
 {
   "name": "@thetribe/strapi-plugin-sms",
-  "version": "1.0.0",
+  "version": "1.0.0-test2",
   "description": "Send SMS inside of your Strapi app.",
   "strapi": {
     "name": "sms",
