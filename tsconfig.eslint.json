@@ -7,7 +7,7 @@
       "./**/*.tsx",
       "src/**/*.json",
       "test/**/*",
-      "**/*.test.*",
+      "**/*.test.*"
     ],
   "exclude": [
       "node_modules/",
@@ -15,5 +15,6 @@
       "dist/",
       ".cache/",
       ".tmp/",
+      "**/*.d.ts",
   ]
 }

@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { useIntl } from 'react-intl';
+import React, { useState, useEffect } from 'react'
+import { useIntl } from 'react-intl'
 import {
   getYupInnerErrors,
   CheckPagePermissions,
   useNotification,
   LoadingIndicatorPage,
   useOverlayBlocker,
-  useFocusWhenNavigate,
-} from '@strapi/helper-plugin';
+  useFocusWhenNavigate
+} from '@strapi/helper-plugin'
 import {
   Main,
   ContentLayout,
@@ -18,57 +18,57 @@ import {
   TextInput,
   Button,
   Flex,
-  useNotifyAT,
-} from '@strapi/design-system';
-import { Envelop } from '@strapi/icons';
-import Configuration from './components/Configuration';
-import schema from '../../utils/schema';
-import pluginPermissions from '../../permissions';
-import { fetchSMSSettings, postSMSTest } from './utils/api';
-import SMSHeader from './components/SMSHeader';
-import getTrad from '../../utils/getTrad';
+  useNotifyAT
+} from '@strapi/design-system'
+import { Envelop } from '@strapi/icons'
+import Configuration from './components/Configuration'
+import schema from '../../utils/schema'
+import pluginPermissions from '../../permissions'
+import { fetchSMSSettings, postSMSTest } from './utils/api'
+import SMSHeader from './components/SMSHeader'
+import getTrad from '../../utils/getTrad'
 
-const ProtectedSettingsPage = () => (
+const ProtectedSettingsPage = (): JSX.Element => (
   <CheckPagePermissions permissions={pluginPermissions.settings}>
     <SettingsPage />
   </CheckPagePermissions>
-);
+)
 
-const SettingsPage = () => {
-  const toggleNotification = useNotification();
-  const { formatMessage } = useIntl();
-  const { lockApp, unlockApp } = useOverlayBlocker();
-  const { notifyStatus } = useNotifyAT();
-  useFocusWhenNavigate();
+const SettingsPage = (): JSX.Element => {
+  const toggleNotification = useNotification()
+  const { formatMessage } = useIntl()
+  const { lockApp, unlockApp } = useOverlayBlocker()
+  const { notifyStatus } = useNotifyAT()
+  useFocusWhenNavigate()
 
-  const [formErrors, setFormErrors] = useState<any>({});
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [testPhoneNumber, setTestPhoneNumber] = useState('');
-  const [isTestPhoneNumberValid, setIsTestPhoneNumberValid] = useState(false);
+  const [formErrors, setFormErrors] = useState<any>({})
+  const [isLoading, setIsLoading] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [testPhoneNumber, setTestPhoneNumber] = useState('')
+  const [isTestPhoneNumberValid, setIsTestPhoneNumberValid] = useState(false)
   const [config, setConfig] = useState({
     provider: '',
-    settings: { defaultSender: '', testPhoneNumber: '' },
-  });
+    settings: { defaultSender: '', testPhoneNumber: '' }
+  })
 
   useEffect(() => {
-    setIsLoading(true);
+    setIsLoading(true)
 
     fetchSMSSettings()
       .then((config) => {
         notifyStatus(
           formatMessage({
             id: getTrad('Settings.sms.plugin.notification.data.loaded'),
-            defaultMessage: 'SMS settings data has been loaded',
+            defaultMessage: 'SMS settings data has been loaded'
           })
-        );
+        )
 
-        setConfig(config);
+        setConfig(config)
 
-        const testPhoneNumberFound = config?.settings?.testPhoneNumber;
+        const testPhoneNumberFound = config?.settings?.testPhoneNumber
 
         if (testPhoneNumberFound) {
-          setTestPhoneNumber(testPhoneNumberFound);
+          setTestPhoneNumber(testPhoneNumberFound)
         }
       })
       .catch(() =>
@@ -76,39 +76,39 @@ const SettingsPage = () => {
           type: 'warning',
           message: formatMessage({
             id: getTrad('Settings.sms.plugin.notification.config.error'),
-            defaultMessage: 'Failed to retrieve the SMS config',
-          }),
+            defaultMessage: 'Failed to retrieve the SMS config'
+          })
         })
       )
-      .finally(() => setIsLoading(false));
-  }, [formatMessage, toggleNotification, notifyStatus]);
+      .finally(() => { setIsLoading(false) })
+  }, [formatMessage, toggleNotification, notifyStatus])
 
   useEffect(() => {
     if (formErrors.phoneNumber) {
-      const input = document.querySelector('#test-number-input') as HTMLInputElement;
-      input.focus();
+      const input = document.querySelector('#test-number-input') as HTMLInputElement
+      input.focus()
     }
-  }, [formErrors]);
+  }, [formErrors])
 
   useEffect(() => {
     schema
       .validate({ phoneNumber: testPhoneNumber }, { abortEarly: false })
-      .then(() => setIsTestPhoneNumberValid(true))
-      .catch(() => setIsTestPhoneNumberValid(false));
-  }, [testPhoneNumber]);
+      .then(() => { setIsTestPhoneNumberValid(true) })
+      .catch(() => { setIsTestPhoneNumberValid(false) })
+  }, [testPhoneNumber])
 
-  const handleChange = (e) => {
-    setTestPhoneNumber(() => e.target.value);
-  };
+  const handleChange = (e): void => {
+    setTestPhoneNumber(() => e.target.value)
+  }
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (event): Promise<void> => {
+    event.preventDefault()
 
     try {
-      await schema.validate({ phoneNumber: testPhoneNumber }, { abortEarly: false });
+      await schema.validate({ phoneNumber: testPhoneNumber }, { abortEarly: false })
 
-      setIsSubmitting(true);
-      lockApp();
+      setIsSubmitting(true)
+      lockApp()
 
       postSMSTest({ recipient: testPhoneNumber })
         .then(() => {
@@ -117,11 +117,11 @@ const SettingsPage = () => {
             message: formatMessage(
               {
                 id: getTrad('Settings.sms.plugin.notification.test.success'),
-                defaultMessage: 'SMS test succeeded, check the {recipient} text messages',
+                defaultMessage: 'SMS test succeeded, check the {recipient} text messages'
               },
               { recipient: testPhoneNumber }
-            ),
-          });
+            )
+          })
         })
         .catch(() => {
           toggleNotification({
@@ -129,20 +129,20 @@ const SettingsPage = () => {
             message: formatMessage(
               {
                 id: getTrad('Settings.sms.plugin.notification.test.error'),
-                defaultMessage: 'Failed to send a test SMS to {recipient}',
+                defaultMessage: 'Failed to send a test SMS to {recipient}'
               },
               { recipient: testPhoneNumber }
-            ),
-          });
+            )
+          })
         })
         .finally(() => {
-          setIsSubmitting(false);
-          unlockApp();
-        });
+          setIsSubmitting(false)
+          unlockApp()
+        })
     } catch (error) {
-      setFormErrors(getYupInnerErrors(error));
+      setFormErrors(getYupInnerErrors(error))
     }
-  };
+  }
 
   if (isLoading) {
     return (
@@ -152,7 +152,7 @@ const SettingsPage = () => {
           <LoadingIndicatorPage />
         </ContentLayout>
       </Main>
-    );
+    )
   }
 
   return (
@@ -185,7 +185,7 @@ const SettingsPage = () => {
                 <Typography variant="delta" as="h2">
                   {formatMessage({
                     id: getTrad('Settings.sms.plugin.title.test'),
-                    defaultMessage: 'Test sms delivery',
+                    defaultMessage: 'Test sms delivery'
                   })}
                 </Typography>
                 <Grid gap={5} alignItems="end">
@@ -196,19 +196,19 @@ const SettingsPage = () => {
                       onChange={handleChange}
                       label={formatMessage({
                         id: getTrad('Settings.sms.plugin.label.testPhoneNumber'),
-                        defaultMessage: 'Recipient phone number (international format)',
+                        defaultMessage: 'Recipient phone number (international format)'
                       })}
                       value={testPhoneNumber}
                       error={
                         formErrors.phoneNumber?.id &&
                         formatMessage({
                           id: getTrad(`${formErrors.phoneNumber?.id}`),
-                          defaultMessage: 'This is an invalid phone number',
+                          defaultMessage: 'This is an invalid phone number'
                         })
                       }
                       placeholder={formatMessage({
                         id: getTrad('Settings.sms.plugin.placeholder.testPhoneNumber'),
-                        defaultMessage: '+33600000000',
+                        defaultMessage: '+33600000000'
                       })}
                     />
                   </GridItem>
@@ -221,7 +221,7 @@ const SettingsPage = () => {
                     >
                       {formatMessage({
                         id: getTrad('Settings.sms.plugin.button.test-sms'),
-                        defaultMessage: 'Send test sms',
+                        defaultMessage: 'Send test sms'
                       })}
                     </Button>
                   </GridItem>
@@ -232,7 +232,7 @@ const SettingsPage = () => {
         </form>
       </ContentLayout>
     </Main>
-  );
-};
+  )
+}
 
-export default ProtectedSettingsPage;
+export default ProtectedSettingsPage

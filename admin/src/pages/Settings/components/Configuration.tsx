@@ -1,13 +1,13 @@
 /* eslint-disable no-useless-escape */
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useIntl } from 'react-intl';
-import { Flex, Grid, GridItem, Typography, TextInput, Select, Option } from '@strapi/design-system';
-import getTrad from '../../../utils/getTrad';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { useIntl } from 'react-intl'
+import { Flex, Grid, GridItem, Typography, TextInput, Select, Option } from '@strapi/design-system'
+import getTrad from '../../../utils/getTrad'
 
-const Configuration = ({ config }) => {
-  const { formatMessage } = useIntl();
+const Configuration = ({ config }): JSX.Element => {
+  const { formatMessage } = useIntl()
 
   return (
     <Flex direction="column" alignItems="stretch" gap={4}>
@@ -15,7 +15,7 @@ const Configuration = ({ config }) => {
         <Typography variant="delta" as="h2">
           {formatMessage({
             id: getTrad('Settings.sms.plugin.title.config'),
-            defaultMessage: 'Configuration',
+            defaultMessage: 'Configuration'
           })}
         </Typography>
         <Typography>
@@ -23,10 +23,10 @@ const Configuration = ({ config }) => {
             {
               id: getTrad('Settings.sms.plugin.text.configuration'),
               defaultMessage:
-                'The plugin is configured through the {file} file.',
+                'The plugin is configured through the {file} file.'
             },
             {
-              file: './config/plugins.js',
+              file: './config/plugins.js'
             }
           )}
         </Typography>
@@ -37,11 +37,11 @@ const Configuration = ({ config }) => {
             name="shipper-sms"
             label={formatMessage({
               id: getTrad('Settings.sms.plugin.label.defaultSender'),
-              defaultMessage: 'Default sender SMS',
+              defaultMessage: 'Default sender SMS'
             })}
             placeholder={formatMessage({
               id: getTrad('Settings.sms.plugin.placeholder.defaultSender'),
-              defaultMessage: "Strapi",
+              defaultMessage: 'Strapi'
             })}
             disabled
             onChange={() => {}}
@@ -53,7 +53,7 @@ const Configuration = ({ config }) => {
             name="sms-provider"
             label={formatMessage({
               id: getTrad('Settings.sms.plugin.label.provider'),
-              defaultMessage: 'SMS provider',
+              defaultMessage: 'SMS provider'
             })}
             disabled
             onChange={() => {}}
@@ -64,16 +64,16 @@ const Configuration = ({ config }) => {
         </GridItem>
       </Grid>
     </Flex>
-  );
-};
+  )
+}
 
 Configuration.propTypes = {
   config: PropTypes.shape({
     provider: PropTypes.string,
     settings: PropTypes.shape({
-      defaultSender: PropTypes.string,
-    }),
-  }).isRequired,
-};
+      defaultSender: PropTypes.string
+    })
+  }).isRequired
+}
 
-export default Configuration;
+export default Configuration

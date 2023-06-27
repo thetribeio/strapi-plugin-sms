@@ -4,7 +4,7 @@ export default {
     {
       method: 'POST',
       path: '/',
-      handler: 'sms.send',
-    },
-  ],
-};
+      handler: 'sms.send'
+    }
+  ]
+}
