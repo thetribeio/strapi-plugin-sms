@@ -1,8 +1,8 @@
-// import { Strapi } from '@strapi/strapi';
 import { pick } from 'lodash/fp'
+import { errors } from '@strapi/utils'
 
-const ApplicationError = require('@strapi/utils').errors.ApplicationError
-export default ({ strapi }: { strapi: any }) => ({
+const ApplicationError = errors.ApplicationError
+export default async ({ strapi }: { strapi: any }): Promise<any> => ({
   async send(ctx: any) {
     const options = ctx.request.body
 

@@ -1,5 +1,3 @@
-// import type { Strapi } from '@strapi/strapi'
-
 const createProvider = (smsConfig): any => {
   const providerName = smsConfig.provider?.toLowerCase()
   let provider
