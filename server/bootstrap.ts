@@ -1,33 +1,33 @@
-import { Strapi } from '@strapi/strapi';
+// import type { Strapi } from '@strapi/strapi'
 
-const createProvider = (smsConfig) => {
-  const providerName = smsConfig.provider?.toLowerCase();
-  let provider;
+const createProvider = (smsConfig): any => {
+  const providerName = smsConfig.provider?.toLowerCase()
+  let provider
 
-  let modulePath;
+  let modulePath
   try {
-    modulePath = require.resolve(`strapi-provider-sms-${providerName}`);
+    modulePath = require.resolve(`strapi-provider-sms-${providerName}`)
   } catch (e: any) {
     if (e.code === 'MODULE_NOT_FOUND') {
-      modulePath = providerName;
+      modulePath = providerName
     } else {
       throw e
     }
   }
 
   try {
-    provider = require(modulePath);
+    provider = require(modulePath)
   } catch (e) {
-    throw new Error(`Could not load sms provider ${providerName}`);
+    throw new Error(`Could not load sms provider ${providerName}`)
   }
 
-  return provider.init(smsConfig.providerOptions, smsConfig.settings);
+  return provider.init(smsConfig.providerOptions, smsConfig.settings)
 }
 
-export default async ({ strapi }: { strapi: Strapi }) => {
+export default async ({ strapi }: { strapi: any }): Promise<any> => {
   // bootstrap phase
-  const smsConfig = strapi.config.get('plugin.sms');
-  strapi.plugin('sms').provider = createProvider(smsConfig);
+  const smsConfig = strapi.config.get('plugin.sms')
+  strapi.plugin('sms').provider = createProvider(smsConfig)
 
   const actions = [
     {
@@ -35,10 +35,9 @@ export default async ({ strapi }: { strapi: Strapi }) => {
       category: 'sms',
       displayName: 'Access the SMS settings page',
       uid: 'settings.read',
-      pluginName: 'sms',
+      pluginName: 'sms'
     }
-  ];
+  ]
 
-  // @ts-ignore
-  await strapi.admin.services.permission.actionProvider.registerMany(actions);
-};
+  await strapi.admin.services.permission.actionProvider.registerMany(actions)
+}
