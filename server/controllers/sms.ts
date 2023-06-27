@@ -2,7 +2,7 @@ import { pick } from 'lodash/fp'
 import { errors } from '@strapi/utils'
 
 const ApplicationError = errors.ApplicationError
-export default async ({ strapi }: { strapi: any }): Promise<any> => ({
+export default ({ strapi }: { strapi: any }): any => ({
   async send(ctx: any) {
     const options = ctx.request.body
 
